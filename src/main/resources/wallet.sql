@@ -1,10 +1,10 @@
+Create DATABASE wallet;
 CREATE TABLE client (
                         UserID INT AUTO_INCREMENT PRIMARY KEY,
                         Nom VARCHAR(255),
                         Prenom VARCHAR(255),
                         Email VARCHAR(255) UNIQUE,
                         MotDePasse VARCHAR(255)
-
 );
 
 CREATE TABLE compte (
