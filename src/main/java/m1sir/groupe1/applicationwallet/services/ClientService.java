@@ -25,5 +25,12 @@ public class ClientService {
         return clientdanslabasededonnee;
 
     }
+    public Client  findUserByUserId(int userID){
+        return clientRepository.findByUserID(userID);
+    }
+
+    public List<Client> getClients(){
+        return clientRepository.findAll();
+    }
 
 }
