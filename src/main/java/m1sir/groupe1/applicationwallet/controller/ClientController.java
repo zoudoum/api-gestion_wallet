@@ -14,5 +14,12 @@ public class ClientController {
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
+     public Client  findUserByUserId(int userID){
+        return clientRepository.findByUserID(userID);
+    }
+
+    public List<Client> getClients(){
+        return clientRepository.findAll();
+    }
 
 }
