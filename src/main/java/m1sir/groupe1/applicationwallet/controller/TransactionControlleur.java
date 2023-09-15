@@ -1,5 +1,7 @@
 package m1sir.groupe1.applicationwallet.controller;
 
+import m1sir.groupe1.applicationwallet.entite.Compte;
+import m1sir.groupe1.applicationwallet.entite.Transaction;
 import m1sir.groupe1.applicationwallet.request.CancelRequest;
 import m1sir.groupe1.applicationwallet.request.TransactionRequest;
 import m1sir.groupe1.applicationwallet.services.TransactionService;
@@ -30,6 +32,14 @@ public class TransactionControlleur {
 
             int transactionId = cancelRequest.getTransactionId();
             return transactionService.annulerTransfert(transactionId);
+    }
+    @GetMapping("{id}")
+    public Transaction lireTransaction(@PathVariable("id") final int id) {
+        return transactionService.lire(id);
+    }
+    @GetMapping()
+    public Iterable<Transaction> lireTransaction() {
+        return transactionService.lireTransaction();
     }
 
 }

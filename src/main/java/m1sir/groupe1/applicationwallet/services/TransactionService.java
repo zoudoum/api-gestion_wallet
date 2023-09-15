@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -83,6 +84,16 @@ public class TransactionService {
         }
         return response;
     }
+
+    public Transaction lire(int id) {
+        Optional<Transaction> optionalTransaction= this.transactionRepository.findById(id);
+        return optionalTransaction.orElse(null);
+    }
+
+    public Iterable<Transaction> lireTransaction() {
+        return transactionRepository.findAll();
+    }
+
 
 
 }
