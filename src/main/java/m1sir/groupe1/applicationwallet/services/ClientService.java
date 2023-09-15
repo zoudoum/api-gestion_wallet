@@ -4,6 +4,7 @@ import m1sir.groupe1.applicationwallet.entite.Client;
 import m1sir.groupe1.applicationwallet.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
