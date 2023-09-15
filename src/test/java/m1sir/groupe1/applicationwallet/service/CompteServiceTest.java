@@ -33,41 +33,41 @@ public class CompteServiceTest {
 
     @Test
     public void testCreerCompte() {
-        // Créez un exemple de compte
+
         Compte compte = new Compte();
-        compte.setAccountID(1); // Remplacez ceci par l'ID approprié
+        compte.setAccountID(1);
         compte.setSolde(1000.0);
         compte.setTypeDeCompte("Compte courant");
 
-        // Créez un exemple de client
-        Client client = new Client();
-        client.setUserID(1); // Remplacez ceci par l'ID approprié
 
-        // Configurez le comportement du clientService pour renvoyer un client existant
+        Client client = new Client();
+        client.setUserID(1);
+
+
         when(clientService.lireOUCreer(client)).thenReturn(client);
 
-        // Appelez la méthode à tester
+
         compteService.creer(compte);
 
-        // Vérifiez que la méthode save du compteRepository a été appelée une fois avec le compte créé
+
         verify(compteRepository, times(1)).save(compte);
     }
 
     @Test
     public void testLireCompte() {
-        // Créez un exemple de compte
+
         Compte compte = new Compte();
-        compte.setAccountID(1); // Remplacez ceci par l'ID approprié
+        compte.setAccountID(1);
         compte.setSolde(1000.0);
         compte.setTypeDeCompte("Compte courant");
 
-        // Configurez le comportement du compteRepository pour renvoyer un compte existant
+
         when(compteRepository.findById(1)).thenReturn(java.util.Optional.of(compte));
 
-        // Appelez la méthode à tester
+
         Compte result = compteService.lire(1);
 
-        // Vérifiez que le compte résultant est le même que le compte existant
+
         assertEquals(compte, result);
     }
 }

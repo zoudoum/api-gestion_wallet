@@ -14,6 +14,10 @@ public class CompteService {
     private CompteRepository compteRepository;
     @Autowired
     private  ClientService clientService;
+    public CompteService(CompteRepository compteRepository, ClientService clientService) {
+        this.compteRepository = compteRepository;
+        this.clientService = clientService;
+    }
 
     public void creer(Compte compte) {
         Client client=this.clientService.lireOUCreer(compte.getClient());
