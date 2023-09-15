@@ -1,6 +1,7 @@
 package m1sir.groupe1.applicationwallet.entite;
 
 import jakarta.persistence.*;
+import m1sir.groupe1.applicationwallet.enums.Statut;
 
 import java.util.Date;
 @Entity
@@ -17,9 +18,10 @@ public class Transaction {
     private Compte compteDestination;
     private double montant;
     private Date dateHeure;
-    private String statut;
+    @Enumerated(EnumType.STRING)
+    private Statut statut;
 
-    public Transaction(int transactionID, Compte compteSource, Compte compteDestination, double montant, Date dateHeure, String statut) {
+    public Transaction(int transactionID, Compte compteSource, Compte compteDestination, double montant, Date dateHeure, Statut statut) {
         this.transactionID = transactionID;
         this.compteSource = compteSource;
         this.compteDestination = compteDestination;
@@ -73,11 +75,11 @@ public class Transaction {
         this.dateHeure = dateHeure;
     }
 
-    public String getStatut() {
+    public Statut getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(Statut statut) {
         this.statut = statut;
     }
 
