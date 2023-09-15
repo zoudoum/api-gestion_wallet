@@ -14,12 +14,14 @@ public class ClientController {
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
-     public Client  findUserByUserId(int userID){
-        return clientRepository.findByUserID(userID);
+     @GetMapping("/{userID}")
+    public Client getClientByUserID(@PathVariable int userID){
+        return clientService.findUserByUserId(userID);
     }
 
-    public List<Client> getClients(){
-        return clientRepository.findAll();
+    @GetMapping("/all")
+    public  List<Client> getAllClients(){
+        clientService.getClients();
     }
 
 }
