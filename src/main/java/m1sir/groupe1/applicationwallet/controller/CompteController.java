@@ -1,5 +1,7 @@
 package m1sir.groupe1.applicationwallet.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import m1sir.groupe1.applicationwallet.entite.Client;
 import m1sir.groupe1.applicationwallet.entite.Compte;
 import m1sir.groupe1.applicationwallet.services.ClientService;
@@ -13,18 +15,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Tag(name = "Compte")
 public class CompteController {
     @Autowired
     private CompteService compteService;
     @Autowired
     private ClientService clientService;
 
+    @Operation(
+            description = "Creates an account and a customer at the same time if it does not exist",
+            summary = "Create an account"
+    )
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public  void creer(@RequestBody Compte compte){
         this.compteService.creer(compte);
 
     }
+    @Operation(
+            description = "Gives the amount of an account from Id",
+            summary = "Gives the amount of an account"
+    )
     @GetMapping(path = "compte/solde/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Double> consultationSolde(@PathVariable int id) {
         Compte compte = this.compteService.lire(id);
@@ -35,6 +46,10 @@ public class CompteController {
         return response;
     }
 
+    @Operation(
+            description = "Deposit into an account from its Id",
+            summary = "Deposit into an account"
+    )
     @PutMapping("compte/depot/{id}")
     public Map<String, Double> depot(@PathVariable int id, @RequestBody Compte nouveauCompte) {
         Compte compte = this.compteService.lire(id);
@@ -48,6 +63,11 @@ public class CompteController {
         response.put("nouveau_solde", compte.getSolde());
         return response;
     }
+
+    @Operation(
+            description = "withdrawal from an account from its Id",
+            summary = "withdrawal from an account"
+    )
     @PutMapping("compte/retrait/{id}")
     public Map<String, Double> retrait(@PathVariable int id, @RequestBody Compte nouveauCompte) {
         Compte compte = this.compteService.lire(id);
@@ -64,10 +84,20 @@ public class CompteController {
             return null;
         return response;
     }
+
+    @Operation(
+            description = "It gives account by Id",
+            summary = "It gives account by Id"
+    )
         @GetMapping("compte/{id}")
     public Compte lireComptes(@PathVariable("id") final int id) {
         return compteService.lire(id);
     }
+
+    @Operation(
+            description = "It gives all account",
+            summary = "It gives all account"
+    )
     @GetMapping("comptes")
     public Iterable<Compte> lireComptes() {
         return compteService.lireComptes();

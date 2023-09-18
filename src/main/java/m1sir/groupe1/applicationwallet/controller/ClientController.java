@@ -1,5 +1,7 @@
 package m1sir.groupe1.applicationwallet.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import m1sir.groupe1.applicationwallet.entite.Client;
 import m1sir.groupe1.applicationwallet.services.ClientService;
 import org.springframework.http.HttpStatus;
@@ -10,17 +12,27 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "client")
+@Tag(name = "Client")
 public class ClientController {
     private ClientService clientService;
 
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
+
+    @Operation(
+            description = "First Get endpoint for Client",
+            summary = "It gives Customer by Id"
+    )
      @GetMapping("/{userID}")
     public Client getClientByUserID(@PathVariable int userID){
         return clientService.findUserByUserId(userID);
     }
 
+    @Operation(
+            description = "Second Get endpoint for Client",
+            summary = "It gives all Customers"
+    )
     @GetMapping("/all")
     public List<Client> getAllClients(){
          return clientService.getClients();
