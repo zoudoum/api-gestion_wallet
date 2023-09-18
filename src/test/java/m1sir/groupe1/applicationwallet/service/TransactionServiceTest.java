@@ -35,7 +35,7 @@ public class TransactionServiceTest {
 
     @Test
     void testTransfert() {
-        // Créez des objets fictifs pour les tests
+
         Compte compteSource = new Compte();
         compteSource.setAccountID(1);
         compteSource.setSolde(100.0);
@@ -50,19 +50,86 @@ public class TransactionServiceTest {
         transaction.setMontant(30.0);
         transaction.setStatut(Statut.SUCCEED);
 
-        // Configurez les comportements des mocks
         when(compteRepository.findById(1)).thenReturn(Optional.of(compteSource));
         when(compteRepository.findById(2)).thenReturn(Optional.of(compteDestination));
         when(transactionRepository.save(transaction)).thenReturn(transaction);
 
-        // Appelez la méthode à tester
         String response = transactionService.transfert(1, 2, 30.0);
 
-        // Vérifiez le résultat
         assertEquals("Transaction reussie", response);
         assertEquals(70.0, compteSource.getSolde());
         assertEquals(80.0, compteDestination.getSolde());
     }
+
+    @Test
+    void testAnnulerTransfert() {
+        Transaction transaction = new Transaction();
+        transaction.setTransactionID(1);
+        transaction.setMontant(30.0);
+        transaction.setStatut(Statut.SUCCEED);
+
+        Compte compteSource = new Compte();
+        compteSource.setAccountID(1);
+        compteSource.setSolde(70.0);
+
+
+        Compte compteDestination = new Compte();
+        compteDestination.setAccountID(2);
+        compteDestination.setSolde(80.0);
+
+        transaction.setCompteSource(compteSource);
+        transaction.setCompteDestination(compteDestination);
+
+        when(transactionRepository.findById(1)).thenReturn(Optional.of(transaction));
+        when(compteRepository.save(compteSource)).thenReturn(compteSource);
+        when(compteRepository.save(compteDestination)).thenReturn(compteDestination);
+        when(transactionRepository.save(transaction)).thenReturn(transaction);
+
+        String response = transactionService.annulerTransfert(1);
+
+        assertEquals("Transfer cancelled successfully", response);
+        assertEquals(100.0, compteSource.getSolde());
+        assertEquals(50.0, compteDestination.getSolde());
+        assertEquals(Statut.CANCEL, transaction.getStatut());
+    }
+
+    @Test
+    void testAnnulerTransfertWhereTransactionNotFound() {
+        when(transactionRepository.findById(1)).thenReturn(Optional.empty());
+
+        String response = transactionService.annulerTransfert(1);
+
+        assertEquals("Transaction not found", response);
+    }
+
+    @Test
+    void testAnnulerTransfertWhereTransactionAlreadyCancelled() {
+        Transaction transaction = new Transaction();
+        Compte compteSource = new Compte();
+        compteSource.setAccountID(1);
+        compteSource.setSolde(100.0);
+
+        Compte compteDestination = new Compte();
+        compteDestination.setAccountID(2);
+        compteDestination.setSolde(50.0);
+
+        transaction.setStatut(Statut.CANCEL);
+        transaction.setCompteSource(compteSource);
+        transaction.setCompteDestination(compteDestination);
+
+        when(transactionRepository.findById(1)).thenReturn(Optional.of(transaction));
+
+        String response = transactionService.annulerTransfert(1);
+
+        assertEquals("Transaction Already Cancelled", response);
+    }
+
+
+
+
+
+
+
 
 
 
