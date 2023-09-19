@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -123,6 +126,33 @@ public class TransactionServiceTest {
 
         assertEquals("Transaction Already Cancelled", response);
     }
+
+    @Test
+    void testLire() {
+
+        Transaction transaction = new Transaction(1, new Compte(), new Compte(), 100.0, new Date(), Statut.SUCCEED);
+
+        when(transactionRepository.findById(1)).thenReturn(Optional.of(transaction));
+
+        Transaction result = transactionService.lire(1);
+
+        assertEquals(transaction, result);
+    }
+
+    @Test
+    void testLireTransaction() {
+
+        List<Transaction> transactions = new ArrayList<>();
+        transactions.add(new Transaction(1, new Compte(), new Compte(), 100.0, new Date(), Statut.SUCCEED));
+        transactions.add(new Transaction(2, new Compte(), new Compte(), 200.0, new Date(), Statut.SUCCEED));
+
+        when(transactionRepository.findAll()).thenReturn(transactions);
+
+        Iterable<Transaction> result = transactionService.lireTransaction();
+
+        assertEquals(transactions, (List<Transaction>) result);
+    }
+
 
 
 
