@@ -1,4 +1,4 @@
-package m1sir.groupe1.applicationwallet.test;
+package m1sir.groupe1.applicationwallet.controller;
 
 import m1sir.groupe1.applicationwallet.controller.ClientController;
 import m1sir.groupe1.applicationwallet.entite.Client;
