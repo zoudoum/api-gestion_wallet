@@ -13,7 +13,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -108,5 +110,17 @@ public class CompteServiceTest {
         assertEquals(2, resultList.size());
         assertEquals(compte1, resultList.get(0));
         assertEquals(compte2, resultList.get(1));
+    }
+    @Test
+    public void testLireCompteQuandNonTrouve() {
+
+        int idNonExistant = 999;
+
+        when(compteRepository.findById(idNonExistant)).thenReturn(Optional.empty());
+
+        Compte result = compteService.lire(idNonExistant);
+
+
+        assertNull(result);
     }
 }
