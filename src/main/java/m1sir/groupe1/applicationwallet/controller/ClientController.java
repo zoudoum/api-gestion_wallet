@@ -20,12 +20,6 @@ public class ClientController {
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
-    @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public  void creer(@RequestBody Client client){
-        this.clientService.creer(client);
-
-    }
 
     @Operation(
             description = "First Get endpoint for Client",
