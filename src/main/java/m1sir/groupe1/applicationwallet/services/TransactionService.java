@@ -5,7 +5,6 @@ import m1sir.groupe1.applicationwallet.entite.Transaction;
 import m1sir.groupe1.applicationwallet.enums.Statut;
 import m1sir.groupe1.applicationwallet.repository.CompteRepository;
 import m1sir.groupe1.applicationwallet.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -50,7 +49,7 @@ public class TransactionService {
                 transactionRepository.save(transaction);
 
             }else {
-                response = "Solde Solde Insuffisant";
+                response = "Solde Insuffisant";
             }
         }else {
             response = "Compte not found";

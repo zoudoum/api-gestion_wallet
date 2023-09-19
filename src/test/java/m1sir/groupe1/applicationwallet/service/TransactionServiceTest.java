@@ -64,6 +64,42 @@ public class TransactionServiceTest {
         assertEquals(80.0, compteDestination.getSolde());
     }
 
+
+    @Test
+    void testTransfertSoldeInsuffisant() {
+
+        int compteSourceId = 1;
+        int compteDestinationId = 2;
+        double montant = 100.0;
+
+        Compte compteSource = new Compte();
+        compteSource.setAccountID(compteSourceId);
+        compteSource.setSolde(50.0);
+
+        when(compteRepository.findById(compteSourceId)).thenReturn(java.util.Optional.of(compteSource));
+        when(compteRepository.findById(compteDestinationId)).thenReturn(java.util.Optional.of(new Compte()));
+
+        String result = transactionService.transfert(compteSourceId, compteDestinationId, montant);
+
+        assertEquals("Solde Insuffisant", result);
+    }
+
+
+    @Test
+    void testTransfertCompteNotFound() {
+
+        int compteSourceId = 1;
+        int compteDestinationId = 2;
+        double montant = 100.0;
+
+        when(compteRepository.findById(compteSourceId)).thenReturn(java.util.Optional.empty());
+
+        String result = transactionService.transfert(compteSourceId, compteDestinationId, montant);
+
+        assertEquals("Compte not found", result);
+    }
+
+
     @Test
     void testAnnulerTransfert() {
         Transaction transaction = new Transaction();
@@ -150,7 +186,7 @@ public class TransactionServiceTest {
 
         Iterable<Transaction> result = transactionService.lireTransaction();
 
-        assertEquals(transactions, (List<Transaction>) result);
+        assertEquals(transactions,result);
     }
 
 
