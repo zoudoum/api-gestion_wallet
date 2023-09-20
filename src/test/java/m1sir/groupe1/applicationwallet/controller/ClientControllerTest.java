@@ -55,6 +55,36 @@ public class ClientControllerTest {
         assertEquals(mockClient, response.getBody());
     }
     @Test
+    void testGetClientByUserID() {
+
+        int userId = 1;
+        Client mockClient = new Client(userId, "assane", "Doumbouya", "assane@gmail.com", "azou");
+
+
+        when(clientService.findUserByUserId(userId)).thenReturn(mockClient);
+
+
+        Client resultClient = clientController.getClientByUserID(userId);
+
+        assertEquals(mockClient, resultClient);
+    }
+
+    @Test
+    void testAllClients() {
+        // Créer une liste fictive de clients pour le test
+        List<Client> mockClients = new ArrayList<>();
+        mockClients.add(new Client(1, "toure", "hayib", "hayib@gmail.com", "toure"));
+        mockClients.add(new Client(2, "ndiaye", "issa", "issa@gmail.com", "issa"));
+
+        when(clientService.getClients()).thenReturn(mockClients);
+
+
+        List<Client> resultClients = clientController.getAllClients();
+
+
+        assertEquals(mockClients, resultClients);
+    }
+    @Test
     void testLoginSuccess() {
         String email = "azou@gmail.com";
         String motDePasse = "motdepasse1";
@@ -72,7 +102,6 @@ public class ClientControllerTest {
     void testLoginFailure() {
         String email = "azou@gmail.com";
         String motDePasse = "motdepasse1";
-        // Dans ce cas, le client n'existe pas ou les informations de connexion sont incorrectes
         when(clientService.findByEmail(email)).thenReturn(null);
 
         LoginRequest loginRequest = new LoginRequest(email, motDePasse);
