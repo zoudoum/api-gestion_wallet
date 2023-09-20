@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage("Source") {
             steps {
-                git branch: 'main', url: 'https://github.com/zoudoum/wallet'
+                git branch: 'main', url: 'hhttps://github.com/domoudl/wallet-msir-jour'
             }
         }
         stage("Build") {
