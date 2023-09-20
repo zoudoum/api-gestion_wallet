@@ -2,6 +2,7 @@ package m1sir.groupe1.applicationwallet.controller;
 
 import m1sir.groupe1.applicationwallet.controller.ClientController;
 import m1sir.groupe1.applicationwallet.entite.Client;
+import m1sir.groupe1.applicationwallet.request.LoginRequest;
 import m1sir.groupe1.applicationwallet.services.ClientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,33 @@ public class ClientControllerTest {
         ResponseEntity<Client> response = ResponseEntity.ok(cl);;
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(mockClient, response.getBody());
+    }
+    @Test
+    void testLoginSuccess() {
+        String email = "azou@gmail.com";
+        String motDePasse = "motdepasse1";
+        Client mockClient = new Client(1, "assane", "doum", email, motDePasse);
+        when(clientService.findByEmail(email)).thenReturn(mockClient);
+
+        LoginRequest loginRequest = new LoginRequest(email, motDePasse);
+        ResponseEntity<String> response = clientController.login(loginRequest);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Authentification réussie", response.getBody());
+    }
+
+    @Test
+    void testLoginFailure() {
+        String email = "azou@gmail.com";
+        String motDePasse = "motdepasse1";
+        // Dans ce cas, le client n'existe pas ou les informations de connexion sont incorrectes
+        when(clientService.findByEmail(email)).thenReturn(null);
+
+        LoginRequest loginRequest = new LoginRequest(email, motDePasse);
+        ResponseEntity<String> response = clientController.login(loginRequest);
+
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Authentification échouée", response.getBody());
     }
 
 
